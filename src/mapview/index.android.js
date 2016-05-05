@@ -40,7 +40,7 @@ var GeolocationExample = React.createClass({
         var lastPosition = JSON.stringify(position);
         this.setState({lastPosition});
       });
-    }.bind(this), 100);
+    }.bind(this), 1000);
   },
   // componentDidMount: function() {
   //   navigator.geolocation.getCurrentPosition(
