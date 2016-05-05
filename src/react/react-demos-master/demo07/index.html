@@ -10,7 +10,9 @@
     <script type="text/babel">
 var MyComponent = React.createClass({
   handleClick: function() {
+    console.log('btn clicked');
     this.refs.myTextInput.focus();
+    this.refs.myTextInput.value = 'aiya';
   },
   render: function() {
     return (

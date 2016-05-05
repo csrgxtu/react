@@ -13,13 +13,14 @@
           return {value: 'Hello!'};
         },
         handleChange: function(event) {
-          this.setState({value: event.target.value});
+          // this.setState({value: event.target.value});
+          this.setState({value: document.getElementById('texttag').value});
         },
         render: function () {
           var value = this.state.value;
           return (
             <div>
-              <input type="text" value={value} onChange={this.handleChange} />
+              <input id="texttag" type="text" value={value} onChange={this.handleChange} />
               <p>{value}</p>
             </div>
           );
