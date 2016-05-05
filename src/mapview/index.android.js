@@ -24,40 +24,42 @@ var GeolocationExample = React.createClass({
     };
   },
 
-  componentDidMount: function () {
-    this.timer = setInterval(function () {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          var initialPosition = JSON.stringify(position);
-          this.setState({initialPosition});
-        },
-        (error) => alert(error.message),
-        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-      );
+  // componentDidMount: function () {
+  //   this.timer = setInterval(function () {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         var initialPosition = JSON.stringify(position);
+  //         this.setState({initialPosition});
+  //       },
+  //       (error) => alert(error.message),
+  //       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+  //     );
+  //
+  //
+  //     this.watchID = navigator.geolocation.watchPosition((position) => {
+  //       var lastPosition = JSON.stringify(position);
+  //       this.setState({lastPosition});
+  //     });
+  //   }.bind(this), 1000);
+  // },
+  componentDidMount: function() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        var initialPosition = JSON.stringify(position);
+        this.setState({initialPosition});
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
 
 
-      this.watchID = navigator.geolocation.watchPosition((position) => {
+    this.watchID = navigator.geolocation.watchPosition(
+      (position) => {
         var lastPosition = JSON.stringify(position);
         this.setState({lastPosition});
-      });
-    }.bind(this), 1000);
+      }
+    );
   },
-  // componentDidMount: function() {
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       var initialPosition = JSON.stringify(position);
-  //       this.setState({initialPosition});
-  //     },
-  //     (error) => alert(error.message),
-  //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-  //   );
-  //
-  //
-  //   this.watchID = navigator.geolocation.watchPosition((position) => {
-  //     var lastPosition = JSON.stringify(position);
-  //     this.setState({lastPosition});
-  //   });
-  // },
 
   componentWillUnmount: function() {
     navigator.geolocation.clearWatch(this.watchID);
