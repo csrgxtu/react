@@ -13,13 +13,64 @@ import React, {
   View,
 } from 'react-native';
 
+
+var GeolocationExample = React.createClass({
+  watchID: (null: ?number),
+
+  getInitialState: function() {
+    return {
+      initialPosition: 'unknown',
+      lastPosition: 'unknown',
+    };
+  },
+  componentDidMount: function() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        var initialPosition = JSON.stringify(position);
+        this.setState({initialPosition});
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      var lastPosition = JSON.stringify(position);
+      this.setState({lastPosition});
+    });
+  },
+
+  componentWillUnmount: function() {
+    navigator.geolocation.clearWatch(this.watchID);
+  },
+
+  render: function() {
+    return (
+      <View>
+        <Text>
+          <Text style={styles.title}>Initial position: </Text>
+          {this.state.initialPosition}
+        </Text>
+        <Text>
+          <Text style={styles.title}>Current position: </Text>
+          {this.state.lastPosition}
+        </Text>
+      </View>
+    );
+  }
+});
+
+var styles = StyleSheet.create({
+  title: {
+    fontWeight: '500',
+  },
+});
+
 var API_KEY = '7waqfqbprs7pajbz28mqf6vz';
 var API_URL = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/in_theaters.json';
 var PAGE_SIZE = 25;
 var PARAMS = '?apikey=' + API_KEY + '&page_limit=' + PAGE_SIZE;
 var REQUEST_URL = API_URL + PARAMS;
 
-class AwesomeProject extends Component {
+class mapview extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -115,4 +166,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
+AppRegistry.registerComponent('mapview', () => GeolocationExample);
